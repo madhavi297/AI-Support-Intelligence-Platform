@@ -1,0 +1,77 @@
+{
+  "accuracy": 0.8125,
+  "total_samples": 64,
+  "train_samples": 48,
+  "test_samples": 16,
+  "classes": [
+    "Account Access",
+    "Billing",
+    "General Inquiry",
+    "Technical Issue"
+  ],
+  "classification_report": {
+    "Account Access": {
+      "precision": 0.8,
+      "recall": 1.0,
+      "f1-score": 0.8888888888888888,
+      "support": 4.0
+    },
+    "Billing": {
+      "precision": 0.6666666666666666,
+      "recall": 1.0,
+      "f1-score": 0.8,
+      "support": 4.0
+    },
+    "General Inquiry": {
+      "precision": 1.0,
+      "recall": 0.5,
+      "f1-score": 0.6666666666666666,
+      "support": 4.0
+    },
+    "Technical Issue": {
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1-score": 0.8571428571428571,
+      "support": 4.0
+    },
+    "accuracy": 0.8125,
+    "macro avg": {
+      "precision": 0.8666666666666667,
+      "recall": 0.8125,
+      "f1-score": 0.8031746031746032,
+      "support": 16.0
+    },
+    "weighted avg": {
+      "precision": 0.8666666666666667,
+      "recall": 0.8125,
+      "f1-score": 0.8031746031746032,
+      "support": 16.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      4,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      4,
+      0,
+      0
+    ],
+    [
+      0,
+      2,
+      2,
+      0
+    ],
+    [
+      1,
+      0,
+      0,
+      3
+    ]
+  ]
+}

@@ -1,0 +1,85 @@
+import csv
+from pathlib import Path
+
+DATA_PATH = Path("data/sample_tickets.csv")
+
+tickets = [
+    # Billing (16 samples)
+    ("TCK-001", "Double charge on credit card", "I noticed two identical charges of $49.99 on my Visa statement for this month. Please refund one payment immediately.", "Billing", "High"),
+    ("TCK-002", "Invoice needed for tax filing", "Can you send me the PDF invoice and VAT receipt for our team subscription for Q3?", "Billing", "Low"),
+    ("TCK-003", "Unable to update payment method", "Every time I try to enter my new Mastercard on the billing page it gives an error saying card declined.", "Billing", "High"),
+    ("TCK-004", "Cancel monthly subscription", "I want to downgrade from the Pro plan to the free plan at the end of the current billing cycle.", "Billing", "Medium"),
+    ("TCK-005", "Unexpected price increase on renewal", "My subscription renewed at $99 instead of the grandfathered $79 rate without prior notification.", "Billing", "Medium"),
+    ("TCK-006", "Request refund for downtime", "Our service was down for 6 hours yesterday. We are requesting an SLA credit or partial refund on our monthly bill.", "Billing", "High"),
+    ("TCK-007", "Wrong currency displayed on invoice", "Our invoice was billed in EUR instead of USD. Please reissue the invoice with correct currency.", "Billing", "Low"),
+    ("TCK-008", "Failed automatic bank transfer payment", "The ACH payment failed with code ERR_ACH_501. How do we retry payment without subscription disruption?", "Billing", "Urgent"),
+    ("TCK-009", "Enterprise bulk license discount", "We want to add 150 team seats. Can billing assist with volume discount pricing and invoice terms?", "Billing", "Low"),
+    ("TCK-010", "Charge dispute inquiry", "I have an unfamiliar credit card charge on my Amex from your company. Please identify the associated billing account.", "Billing", "Medium"),
+    ("TCK-011", "Chargeback dispute notice received", "Our finance department received a dispute notice for transaction TX-99482. Need invoice verification and refund status.", "Billing", "High"),
+    ("TCK-012", "Overcharged on annual subscription", "We were billed for 20 seats instead of 10 on our annual invoice renewal. Please correct billing and issue credit.", "Billing", "High"),
+    ("TCK-013", "Request tax exemption on account", "Our school is tax-exempt. Where do we upload our state tax exemption certificate for future invoices?", "Billing", "Low"),
+    ("TCK-014", "Payment receipt download link broken", "The link to download the receipt from our latest transaction gives a 404 page not found error in billing portal.", "Billing", "Medium"),
+    ("TCK-015", "Billing address change for corporate card", "Please update the corporate billing address and company name shown on our monthly statements.", "Billing", "Low"),
+    ("TCK-016", "Unauthorized credit card payment attempt", "I noticed a pending charge from your service but nobody in our accounting authorized this card payment.", "Billing", "Urgent"),
+
+    # Account Access (16 samples)
+    ("TCK-017", "Forgot my account password", "I clicked forgot password but the login reset link is not arriving in my inbox or spam folder.", "Account Access", "High"),
+    ("TCK-018", "Account locked after failed login attempts", "My account has been locked due to 5 incorrect password attempts. I need urgent login access for a client demo.", "Account Access", "Urgent"),
+    ("TCK-019", "2FA code not sending to SMS", "The two-factor authentication SMS verification code is never received on my mobile phone for login.", "Account Access", "High"),
+    ("TCK-020", "Update primary login email address", "Our company domain changed. I need to update my login account email from oldcorp.com to newcorp.com.", "Account Access", "Medium"),
+    ("TCK-021", "SSO SAML authentication failing", "When logging in with Okta SAML SSO our users receive error code SAML_INVALID_ASSERTION and login fails.", "Account Access", "Urgent"),
+    ("TCK-022", "Lost authenticator app 2FA backup codes", "I switched to a new phone and lost my Google Authenticator 2FA keys and recovery codes to login.", "Account Access", "High"),
+    ("TCK-023", "Remove former employee account login", "Please revoke access, disable login, and remove account for john.doe@company.com effective immediately.", "Account Access", "Medium"),
+    ("TCK-024", "Session expires too quickly", "Users are being logged out every 10 minutes even while actively typing in the dashboard.", "Account Access", "Medium"),
+    ("TCK-025", "Cannot login with Google OAuth", "Clicking Sign in with Google opens a blank white popup and redirects back to account login page.", "Account Access", "High"),
+    ("TCK-026", "Unlock admin portal access", "Our organization primary admin account is locked and nobody else has administrative login permissions.", "Account Access", "Urgent"),
+    ("TCK-027", "Reset multi-factor authentication for team member", "One of our engineers broke their phone and needs their 2FA login credentials reset by support.", "Account Access", "High"),
+    ("TCK-028", "Account verification email expired", "The verification email link expired before I could click it. Please resend the account confirmation email.", "Account Access", "Medium"),
+    ("TCK-029", "Password reset link gives invalid token", "When clicking the reset password email link, it immediately says token expired or invalid token.", "Account Access", "High"),
+    ("TCK-030", "Two-factor authentication device lost", "My laptop and phone were stolen. How do I regain access to my account without my 2FA authenticator?", "Account Access", "Urgent"),
+    ("TCK-031", "User permissions not updating after role change", "Admin changed my role to Manager, but my account still cannot view team analytics reports.", "Account Access", "Medium"),
+    ("TCK-032", "Cannot change account password in settings", "Entering old password and new password produces an error saying unable to update password at this time.", "Account Access", "High"),
+
+    # Technical Issue (16 samples)
+    ("TCK-033", "REST API returning 500 Internal Server Error", "POST /api/v1/orders is failing with HTTP 500 and message Database connection pool exhausted error.", "Technical Issue", "Urgent"),
+    ("TCK-034", "Webhook notifications delayed by 30 minutes", "Our webhook listener is receiving order created events with a 30 to 45 minute latency bug.", "Technical Issue", "High"),
+    ("TCK-035", "Mobile app crashes on checkout screen", "On iOS version 18.2 the application crashes instantly when clicking the Proceed to Payment button with fatal error.", "Technical Issue", "Urgent"),
+    ("TCK-036", "CSV export fails on large datasets", "Exporting reports with more than 50000 rows fails with browser timeout error after 60 seconds.", "Technical Issue", "Medium"),
+    ("TCK-037", "WebSocket connection closing unexpectedly", "The real-time notification socket disconnects every 2 minutes with code 1006 abnormal socket closure bug.", "Technical Issue", "High"),
+    ("TCK-038", "Search indexing out of sync", "New customer records created in the last 4 hours do not appear in global search results due to indexing bug.", "Technical Issue", "Medium"),
+    ("TCK-039", "File upload button unresponsive in Chrome", "Users cannot click or drag-and-drop PDF attachments in Google Chrome due to javascript error.", "Technical Issue", "Medium"),
+    ("TCK-040", "API rate limit reached prematurely", "We are receiving 429 Too Many Requests even though our traffic is well under the 100 req/sec quota limit.", "Technical Issue", "High"),
+    ("TCK-041", "Database query timeout on dashboard", "Analytics dashboard widget fails to load with error Query execution timeout exceeded 30000ms.", "Technical Issue", "High"),
+    ("TCK-042", "Memory leak in worker background jobs", "Background celery worker memory consumption grows continuously until server crash.", "Technical Issue", "Urgent"),
+    ("TCK-043", "Intermittent 502 Bad Gateway server error", "Every morning around 9 AM UTC the web application returns 502 Bad Gateway server error for 5-10 minutes.", "Technical Issue", "Urgent"),
+    ("TCK-044", "Server 503 service unavailable during backup", "Our production database returns 503 Service Unavailable during nightly scheduled backup jobs.", "Technical Issue", "Urgent"),
+    ("TCK-045", "SSL certificate expired error on custom domain", "Browsers show NET::ERR_CERT_DATE_INVALID when accessing our custom domain webhook endpoint.", "Technical Issue", "Urgent"),
+    ("TCK-046", "Frontend UI button unclickable in Firefox", "The submit ticket button does not respond to mouse clicks in Mozilla Firefox version 128.", "Technical Issue", "Medium"),
+    ("TCK-047", "GraphQL query syntax error on schema introspection", "Introspection query returns syntax error after latest backend deployment.", "Technical Issue", "Medium"),
+    ("TCK-048", "Slow page response time on reporting tab", "Loading the monthly reports dashboard takes over 45 seconds to load charts.", "Technical Issue", "High"),
+
+    # General Inquiry (16 samples)
+    ("TCK-049", "What are your standard support operating hours?", "Can you tell me what hours your technical support team is available and what is the SLA?", "General Inquiry", "Low"),
+    ("TCK-050", "Is your platform SOC2 Type II certified?", "Our security compliance team needs a copy of your latest SOC2 compliance report and ISO certification policies.", "General Inquiry", "Medium"),
+    ("TCK-051", "Schedule a sales product demo", "We are evaluating customer support automation tools for 50 agents. Can we book an interactive sales demo?", "General Inquiry", "Low"),
+    ("TCK-052", "Do you have an on-premise deployment option?", "Can this software be deployed inside our private AWS VPC or on-premise Kubernetes cluster?", "General Inquiry", "Medium"),
+    ("TCK-053", "Supported languages for customer portal", "Does your knowledge base and portal support multi-lingual localization in Spanish and Japanese?", "General Inquiry", "Low"),
+    ("TCK-054", "Public API documentation link request", "Where can our engineering team find your OpenAPI Swagger documentation and Postman collection guidelines?", "General Inquiry", "Low"),
+    ("TCK-055", "Product roadmap for Slack integration", "Do you have plans to release a native bidirectional Slack or Microsoft Teams bot this quarter?", "General Inquiry", "Low"),
+    ("TCK-056", "Data retention policy for EU GDPR", "How long do you retain customer ticket data and how do we request complete data deletion under GDPR policy?", "General Inquiry", "Medium"),
+    ("TCK-057", "Pricing plan comparison question", "What is the difference between Business and Enterprise plans regarding custom webhook limits?", "General Inquiry", "Low"),
+    ("TCK-058", "Non-profit organization discount eligibility", "Does your company offer discounted subscription pricing for registered 501c3 non-profits?", "General Inquiry", "Low"),
+    ("TCK-059", "Inquiry regarding HIPAA compliance", "Does your cloud service sign Business Associate Agreements (BAA) for healthcare HIPAA compliance guidelines?", "General Inquiry", "Medium"),
+    ("TCK-060", "Can we export audit logs to Datadog?", "Does your enterprise plan support streaming security audit logs directly into Datadog or Splunk?", "General Inquiry", "Low"),
+    ("TCK-061", "Information about uptime SLA guarantee", "What is your guaranteed monthly uptime percentage and what are the financial penalties if violated?", "General Inquiry", "Medium"),
+    ("TCK-062", "How to request feature on public roadmap?", "Where can our team submit feature requests and upvote planned integrations?", "General Inquiry", "Low"),
+    ("TCK-063", "Security whitepaper and penetration test summary", "Can you provide your most recent third-party network penetration test summary for our vendor review?", "General Inquiry", "Medium"),
+    ("TCK-064", "Partner reseller program details", "Does your company offer a value-added reseller or referral partner commission program?", "General Inquiry", "Low")
+]
+
+with open(DATA_PATH, "w", newline="", encoding="utf-8") as f:
+    writer = csv.writer(f)
+    writer.writerow(["ticket_id", "title", "description", "category", "priority_hint"])
+    writer.writerows(tickets)
+
+print(f"Successfully generated {len(tickets)} properly quoted tickets in {DATA_PATH}")
