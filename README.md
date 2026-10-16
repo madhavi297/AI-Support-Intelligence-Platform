@@ -294,6 +294,19 @@ See full instructions in:
 
 ---
 
-## 14. License & Attribution
+## 14. Security & Compliance
+
+The platform follows rigorous security practices audited against the OWASP Top 10 for LLM Applications:
+- **Zero Committed Secrets:** `.env` and `*.db` are strictly excluded from version control.
+- **SQL Injection Prevention:** 100% parameterized queries across all SQLite interactions.
+- **Input Validation:** Strict Pydantic boundary checks prevent resource exhaustion.
+- **Prompt Injection Defense:** Strict delimitation between trusted knowledge base context and untrusted customer ticket text.
+- **Hallucination Guardrails:** Similarity threshold gating prevents unsupported assertions.
+
+See the full audit report: **[docs/SECURITY_AUDIT.md](docs/SECURITY_AUDIT.md)**.
+
+---
+
+## 15. License & Attribution
 
 Developed as an AI Engineering portfolio demonstration. Distributed under the MIT License.
