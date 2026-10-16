@@ -162,3 +162,24 @@ cd C:\Users\Madhavi\Downloads\Project1
 git init
 ```
 This isolates the project completely from the user home folder.
+
+---
+
+## 9. Failed to Load Page: ERR_ADDRESS_INVALID (-108) on `http://0.0.0.0:8501/`
+
+### Symptoms
+When starting Streamlit, your browser automatically attempts to navigate to `http://0.0.0.0:8501/` and displays:
+```text
+Failed to Load Page
+ERR_ADDRESS_INVALID (-108)
+URL: http://0.0.0.0:8501/
+```
+
+### Why It Happens
+In networking, `0.0.0.0` is a server meta-address meaning *"listen on all available network interfaces"*. However, Windows and modern web browsers (Chrome, Edge, Firefox) do not permit client connections to `0.0.0.0` directly; they require a routable client address such as `localhost` or `127.0.0.1`.
+
+### The Fix
+1. In your browser's address bar, replace `0.0.0.0` with `localhost` or `127.0.0.1`:
+   👉 **`http://localhost:8501`** (or `http://127.0.0.1:8501`)
+2. In `.streamlit/config.toml`, we have already updated `address = "localhost"` so future Streamlit runs will automatically open `http://localhost:8501` without this error.
+
