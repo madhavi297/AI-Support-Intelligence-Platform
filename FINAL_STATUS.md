@@ -24,9 +24,9 @@
 | **Git Secrets Checked** | **VERIFIED** | `.env` and `*.db` are strictly excluded in `.gitignore`. |
 | **Deployment Guide Complete** | **VERIFIED** | `render.yaml`, `Dockerfile`, and `docs/DEPLOYMENT_GUIDE.md` created. |
 | **Interview Guide Complete** | **VERIFIED** | 30 project-specific Q&As, pitches, and demo scripts in `docs/INTERVIEW_PREPARATION.md`. |
-| **GitHub Repository Published** | **READY TO PUSH** | Git repo committed locally; waiting for candidate to link remote URL and push. |
-| **Public Deployment Completed** | **READY TO DEPLOY** | Render blueprint and Streamlit cloud manifests prepared; user action required to connect GitHub. |
-| **Public URLs Verified** | **PENDING HOSTING** | Verification protocol documented in `docs/DEPLOYMENT_VERIFICATION.md`. |
+| **GitHub Repository Published** | **VERIFIED** | Live at https://github.com/madhavi297/AI-Support-Intelligence-Platform |
+| **Public Deployment Completed** | **VERIFIED** | Backend live on Render, Frontend live on Streamlit Community Cloud. |
+| **Public URLs Verified** | **VERIFIED** | Live URLs tested and operational (Streamlit UI, Render API, Swagger /docs, /metrics). |
 
 ---
 
