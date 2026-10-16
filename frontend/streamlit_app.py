@@ -17,8 +17,15 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Determine default backend URL from environment or default to local FastAPI port
-DEFAULT_API_URL = os.getenv("BACKEND_API_URL", "http://127.0.0.1:8000")
+# Determine default backend URL from Streamlit secrets, environment, or live Render production URL
+DEFAULT_API_URL = "https://ai-support-intelligence-platform-1.onrender.com"
+if os.getenv("BACKEND_API_URL"):
+    DEFAULT_API_URL = os.getenv("BACKEND_API_URL")
+try:
+    if hasattr(st, "secrets") and "BACKEND_API_URL" in st.secrets:
+        DEFAULT_API_URL = str(st.secrets["BACKEND_API_URL"])
+except Exception:
+    pass
 
 
 # ---------------------------------------------------------
@@ -29,7 +36,7 @@ api_base_url = st.sidebar.text_input("Backend REST API URL", value=DEFAULT_API_U
 
 # Health Check
 try:
-    health_resp = requests.get(f"{api_base_url}/health", timeout=3)
+    health_resp = requests.get(f"{api_base_url}/health", timeout=10)
     if health_resp.status_code == 200:
         health_data = health_resp.json()
         st.sidebar.success("🟢 Backend Connected")
