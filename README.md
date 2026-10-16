@@ -9,6 +9,11 @@
 
 An end-to-end, production-grade AI support operations platform that automates incoming customer ticket triage. Combines fast classical **Machine Learning (Scikit-Learn)** for ticket classification, transparent **SLA Priority Heuristics**, and **Retrieval-Augmented Generation (RAG)** to draft accurate, policy-grounded support replies with source citations.
 
+> 🌐 **Live Cloud API:** [https://ai-support-intelligence-platform-1.onrender.com](https://ai-support-intelligence-platform-1.onrender.com)  
+> 📑 **Interactive Swagger UI:** [https://ai-support-intelligence-platform-1.onrender.com/docs](https://ai-support-intelligence-platform-1.onrender.com/docs)  
+> 🩺 **Live Health Check:** [https://ai-support-intelligence-platform-1.onrender.com/health](https://ai-support-intelligence-platform-1.onrender.com/health)  
+> 📊 **Live Model Metrics:** [https://ai-support-intelligence-platform-1.onrender.com/metrics](https://ai-support-intelligence-platform-1.onrender.com/metrics)
+
 ---
 
 ## 1. Project Overview
